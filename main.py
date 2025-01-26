@@ -1,9 +1,10 @@
 import os
 
-import pygame
+import pygame # type: ignore
 from constants import *
 from player import Player
-
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
 #Delete this line if on windows
 os.environ["SDL_VIDEODRIVER"]="x11"
 
@@ -20,16 +21,20 @@ def main():
     #set screen resolution 
     screen = pygame.display.set_mode(size=(SCREEN_WIDTH,SCREEN_HEIGHT))
     #Creating groups so we can create multiple callings in one for loop
-    updatable, drawable = pygame.sprite.Group(), pygame.sprite.Group()
+    updatable, drawable, asteroids = pygame.sprite.Group(), pygame.sprite.Group(), pygame.sprite.Group()
     Player.containers = (updatable, drawable)
-    Player(SCREEN_WIDTH/2,SCREEN_HEIGHT/2)
-   
+
+    Asteroid.containers = (updatable, drawable, asteroids)
+    AsteroidField.containers = (updatable)
+
+    p = Player(SCREEN_WIDTH/2,SCREEN_HEIGHT/2)
+    af = AsteroidField()
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
         pygame.Surface.fill(screen,"black")
-
+        pygame.draw.circle(screen,"white",(200,200),25,2)
         for entity in updatable:
             entity.update(dt)
         
