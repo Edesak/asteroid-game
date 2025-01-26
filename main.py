@@ -1,5 +1,5 @@
 import os
-
+from sys import exit
 import pygame # type: ignore
 from constants import *
 from player import Player
@@ -46,5 +46,9 @@ def main():
         dt = dt/1000
         pygame.display.update()
 
+        for entity in asteroids:
+            if not entity.colisionCheck(p):
+                print("Gameru Overu")
+                exit()
 if __name__ == "__main__":
     main()
